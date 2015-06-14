@@ -1,5 +1,5 @@
 # polyfillPromise
-## A polyfill for Browsers not supporting ECMAScript 6 Promise
+<div style="color:blue; font:14pt Helvetica Neue; margin-bottom:20px;"> A polyfill for Browsers not supporting ECMAScript 6 Promise</div>
 
 Tests for existence of a Promise object in the browser and if doesnt exist adds a window.Promise which meets the ES6 specification.
 
