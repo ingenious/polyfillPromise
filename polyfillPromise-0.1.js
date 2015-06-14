@@ -1,9 +1,10 @@
 // version 0.1
 // polyfill ES6 Promise in older browsers
-// Stephen Giles
+// Stephen Giles. https://github.com/ingenious
 (function() {
-    if (!window.Promise) {
-        var PolyfillPromise = function Promise(fn) {
+    var PolyfillPromise, root = this;
+    if (!root.Promise) {
+        PolyfillPromise = function Promise(fn) {
             var pp = this,
                 onResolve, rejectedArgs, onReject, resolvedArgs,
                 state = 'pending',
@@ -122,6 +123,24 @@
                 reject(error);
             });
         };
-        window.Promise = PolyfillPromise;
+    } else {
+        PolyFillPromise = root.Promise;
+    }
+
+    // AMD module
+    if (typeof define === 'function' && define.amd) {
+        define([], function() {
+            return PolyFillPromise;
+        });
+    }
+
+    // commonJS module
+    else if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = PolyFillPromise;
+        }
+        exports.Promise = PolyFillPromise;
+    } else if (!root.Promise) {
+        root.Promise = PolyFillPromise;
     }
 })();
