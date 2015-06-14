@@ -69,4 +69,15 @@ Using requirejs
       
   </script>
 ```
+## Promise API
+
+### Methods
+
+**Promise.all(iterable)**
+
+Returns a promise that resolves when all of the promises in the iterable argument have resolved.
+
+**Promise.race(iterable)**
+
+Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves or rejects, with the value or reason from that promise.
 
