@@ -6,6 +6,20 @@ Tests for existence of a Promise constructor in the browser and if doesn't exist
 ```
   <script src="js/polyFillPromise.js"></script>
 ```
+Using requirejs
+
+```
+ require(['../polyfillPromise-0.1'], function(Promise) {
+
+        var promise = new Promise(function(resolve) {
+        
+        });
+
+        promise.then(function(data){
+        
+        };
+    });
+```
 ### Typical Use
 ```
   <script>
@@ -32,3 +46,27 @@ Tests for existence of a Promise constructor in the browser and if doesn't exist
   
   </script>
 ```
+
+```
+  <script>
+	 require(['../polyfillPromise-0.1'], function(Promise) {
+
+        'use strict';
+
+        var promise = new Promise(function(resolve) {
+            setTimeout(function(){
+                resolve({hello:'world'});
+            },1500);
+        });
+
+        promise.then(function(data){
+            if (console && console.log) {
+                console.log(data);
+            }
+            document.getElementsByTagName("pre"[0].innerHTML=JSON.stringify(data);
+        });
+    });
+      
+  </script>
+```
+
