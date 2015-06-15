@@ -1,7 +1,11 @@
 # polyfillPromise
 <blockquote><strong> A polyfill for Browsers not supporting ECMAScript 6 Promise</strong></blockquote>
 
+
 Tests for existence of a Promise constructor in the browser and if doesn't exist adds a window.Promise which meets the ES6 specification.
+
+[Browser support for Promises](http://caniuse.com/#feat=promises)
+
 
 ```
   <script src="js/polyFillPromise.js"></script>
