@@ -10,8 +10,8 @@
                 state = 'pending',
                 reject = function(args) {
                     rejectedArgs = arguments;
-                    if (typeof onreject === 'function') {
-                        onreject.apply(pp, rejectedArgs);
+                    if (typeof onReject === 'function') {
+                        onReject.apply(pp, rejectedArgs);
                     }
                     state = 'rejected';
                 },

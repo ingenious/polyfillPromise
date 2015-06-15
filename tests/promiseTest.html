@@ -24,6 +24,7 @@
 
 <body>
     <pre></pre>
+    <pre></pre>
     <script>
 
     window.Promise=undefined;
@@ -35,7 +36,7 @@
         var promise = new Promise(function(resolve) {
             setTimeout(function(){
                 resolve({hello:'world'});
-            },1500);
+            },1000);
         });
 
         promise.then(function(data){
@@ -44,6 +45,21 @@
             }
             document.getElementsByTagName("pre")[0].innerHTML=JSON.stringify(data);
         });
+
+         var promise1 = new Promise(function(resolve, reject) {
+            setTimeout(function(){
+                reject(new Error('Too late'));
+            },1500);
+        });
+
+        promise1.catch(function(err){
+            if (console && console.log) {
+                console.log(err);
+            }
+            document.getElementsByTagName("pre")[1].innerHTML=JSON.stringify(err.message);
+        });
+
+
     });
     </script>
 </body>
