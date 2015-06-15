@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>polyfillPromise Tests</title>
+    <style>
+    body {
+        margin: 0px;
+        background-color: #11444D;
+    }
+    pre {
+        color:white;
+        font-size: 2em;
+        margin-left:20px;
+
+    }
+    small {
+        display: block;
+        font-size: 0.6em;
+    }
+    </style>
+    <script src='lib/require.js' charset='utf-8'></script>
+</head>
+
+<body>
+    <pre></pre>
+    <script>
+
+
+    
+    require(['../polyfillPromise-0.1'], function(Promise) {
+
+        'use strict';
+
+        var promise = new Promise(function(resolve) {
+            setTimeout(function(){
+                resolve({hello:'world'});
+            },1500);
+        });
+
+        promise.then(function(data){
+            if (console && console.log) {
+                console.log(data);
+            }
+            document.getElementsByTagName("pre")[0].innerHTML=JSON.stringify(data);
+        });
+    });
+    </script>
+</body>
+
+</html>
