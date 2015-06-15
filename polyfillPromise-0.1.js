@@ -124,13 +124,13 @@
             });
         };
     } else {
-        PolyFillPromise = root.Promise;
+        PolyfillPromise = root.Promise;
     }
 
     // AMD module
     if (typeof define === 'function' && define.amd) {
         define([], function() {
-            return PolyFillPromise;
+            return PolyfillPromise;
         });
     }
 
@@ -139,8 +139,8 @@
         if (typeof module !== 'undefined' && module.exports) {
             exports = module.exports = PolyFillPromise;
         }
-        exports.Promise = PolyFillPromise;
+        exports.Promise = PolyfillPromise;
     } else if (!root.Promise) {
-        root.Promise = PolyFillPromise;
+        root.Promise = PolyfillPromise;
     }
 })();
