@@ -8,12 +8,13 @@
         margin: 0px;
         background-color: #11444D;
     }
+    
     pre {
-        color:white;
+        color: white;
         font-size: 2em;
-        margin-left:20px;
-
+        margin-left: 20px;
     }
+    
     small {
         display: block;
         font-size: 0.6em;
@@ -25,41 +26,105 @@
 <body>
     <pre></pre>
     <pre></pre>
+    <pre></pre>
     <script>
+    // remove any Native Promise
+     window.Promise = undefined;
 
-    window.Promise=undefined;
-    
     require(['../polyfillPromise-0.1'], function(Promise) {
 
         'use strict';
 
-        var promise = new Promise(function(resolve) {
-            setTimeout(function(){
-                resolve({hello:'world'});
-            },1000);
-        });
+        var start = new Date().getTime(),
+            rejectPromise, rejectedPromise, promise = new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve({
+                        hello: 'world'
+                    });
+                }, 1000);
+            }),
+            promiseSlow = new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve({
+                        type: 'slow'
+                    });
+                }, 1000);
+            }),
+            promiseFast = new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve({
+                        type: 'fast'
+                    });
+                }, 500);
+            }),
+            promiseModerate = new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve({
+                        type: 'moderate'
+                    });
+                }, 2000);
+            }),
+            promiseSlower = new Promise(function(resolve) {
+                setTimeout(function() {
+                    resolve({
+                        type: 'slower'
+                    });
+                }, 2500);
+            });
 
-        promise.then(function(data){
+
+        // test resolve() and .then()
+        promise.then(function(data) {
             if (console && console.log) {
                 console.log(data);
             }
-            document.getElementsByTagName("pre")[0].innerHTML=JSON.stringify(data);
+            document.getElementsByTagName("pre")[0].innerHTML = JSON.stringify(data);
         });
 
-         var promise1 = new Promise(function(resolve, reject) {
-            setTimeout(function(){
+        // test reject() and .catch()
+        rejectPromise = new Promise(function(resolve, reject) {
+            setTimeout(function() {
                 reject(new Error('Too late'));
-            },1500);
-        });
-
-        promise1.catch(function(err){
+            }, 1500);
+        }).catch(function(err) {
             if (console && console.log) {
-                console.log(err);
+                console.log('1:',err);
             }
-            document.getElementsByTagName("pre")[1].innerHTML=JSON.stringify(err.message);
+            document.getElementsByTagName("pre")[1].innerHTML = '1: ' + JSON.stringify(err.message);
         });
 
+        rejectPromise.catch(function(err) {
+            if (console && console.log) {
+                console.log('2:',err);
+            }
+            document.getElementsByTagName("pre")[2].innerHTML = '2: ' + JSON.stringify(err.message);
+        });
 
+        // test .race()
+        Promise.race([promiseFast, promiseSlow]).then(function(data) {
+            console.log(data, (new Date().getTime()) - start, 'ms');
+        });
+
+        // test .all()
+        Promise.all([promiseModerate, promiseSlower]).then(function(dataArray) {
+            console.log(dataArray[0], dataArray[1], (new Date().getTime()) - start, 'ms');
+        });
+
+        // test Promise.resolve(promise)
+
+        // test Promise.resolve(thenable)
+
+        // test  Promise.resove(value)
+
+        // test Promise.reject()
+
+        rejectedPromise = Promise.reject(new Error(34)).catch(function(err) {
+
+            console.log('Promise.reject 1', err);
+        });
+        rejectedPromise.catch(function(err) {
+            console.log('Promise.reject 2', err);
+        });
     });
     </script>
 </body>

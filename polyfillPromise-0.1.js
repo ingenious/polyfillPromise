@@ -6,20 +6,24 @@
     if (!root.Promise) {
         PolyfillPromise = function Promise(fn) {
             var pp = this,
-                onResolve, rejectedArgs, onReject, resolvedArgs,
-                state = 'pending',
+                onResolve=[], rejectedArgs, onReject = [], resolvedArgs, state = 'pending',
                 reject = function(args) {
                     rejectedArgs = arguments;
-                    if (typeof onReject === 'function') {
-                        onReject.apply(pp, rejectedArgs);
+                    for (var i = 0; i < onReject.length; i++) {
+                        if (typeof onReject[i] === 'function') {
+                            onReject[i].apply(pp, rejectedArgs);
+                        }
                     }
                     state = 'rejected';
                 },
                 resolve = function(args) {
                     resolvedArgs = arguments;
-                    if (typeof onResolve === 'function') {
-                        onResolve.apply(pp, resolvedArgs);
+                     for (var i = 0; i < onResolve.length; i++) {
+                   
+                    if (typeof onResolve[i] === 'function') {
+                        onResolve[i].apply(pp, resolvedArgs);
                     }
+                }
                     state = 'fulfilled';
                 };
             if (typeof fn === 'function') {
@@ -32,18 +36,18 @@
             }
             pp.then = function(callback) {
                 if (typeof callback === 'function') {
-                    onResolve = callback;
+                    onResolve .push(callback);
                     if (state === 'fulfilled') {
-                        onResolve.apply(pp, resolvedArgs);
+                        callback.apply(pp, resolvedArgs);
                     }
                 }
                 return pp;
             };
             pp.catch = function(fail) {
                 if (typeof fail === 'function') {
-                    onReject = fail;
+                    onReject.push(fail);
                     if (state === 'rejected') {
-                        onReject.apply(pp, rejectedArgs);
+                        fail.apply(pp, rejectedArgs);
                     }
                 }
                 return pp;
