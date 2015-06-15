@@ -29,14 +29,19 @@
     <pre></pre>
     <script>
     // remove any Native Promise
-     window.Promise = undefined;
+    window.Promise = undefined;
 
     require(['../polyfillPromise-0.1'], function(Promise) {
 
         'use strict';
 
         var start = new Date().getTime(),
-            rejectPromise, rejectedPromise, promise = new Promise(function(resolve) {
+            thenable={then:function(resolve){
+                resolve({type:'thenable'});
+                console.log('thenable');
+            }}, 
+            resolvedPromise, rejectPromise, rejectedPromise, 
+            promise = new Promise(function(resolve) {
                 setTimeout(function() {
                     resolve({
                         hello: 'world'
@@ -88,14 +93,14 @@
             }, 1500);
         }).catch(function(err) {
             if (console && console.log) {
-                console.log('1:',err);
+                console.log('1:', err);
             }
             document.getElementsByTagName("pre")[1].innerHTML = '1: ' + JSON.stringify(err.message);
         });
 
         rejectPromise.catch(function(err) {
             if (console && console.log) {
-                console.log('2:',err);
+                console.log('2:', err);
             }
             document.getElementsByTagName("pre")[2].innerHTML = '2: ' + JSON.stringify(err.message);
         });
@@ -111,15 +116,32 @@
         });
 
         // test Promise.resolve(promise)
+        Promise.resolve(promise)
+            .then(function(data) {
+                console.log('Promise.resolve promise', data);
+            });        
 
         // test Promise.resolve(thenable)
+        Promise.resolve(thenable)
+            .then(function(data) {
+                console.log('Promise.resolve theanble argument', data);
+            });
 
-        // test  Promise.resove(value)
+        // test  Promise.resolve(value)
+        resolvedPromise = Promise.resolve({
+                type: 'Promise.resolve'
+            })
+            .then(function(data) {
+                console.log('Promise.resolve 1', data.type);
+            });
+
+        resolvedPromise
+            .then(function(data) {
+                console.log('Promise.resolve 2', data.type);
+            });
 
         // test Promise.reject()
-
         rejectedPromise = Promise.reject(new Error(34)).catch(function(err) {
-
             console.log('Promise.reject 1', err);
         });
         rejectedPromise.catch(function(err) {
