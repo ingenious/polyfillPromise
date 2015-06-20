@@ -31,7 +31,7 @@
     // remove any Native Promise
     window.Promise = undefined;
 
-    require(['../polyfillPromise-0.1'], function(Promise) {
+    require(['../polyfillPromise-0.1.min'], function(Promise) {
 
         'use strict';
 
@@ -95,15 +95,20 @@
             setTimeout(function() {
                 reject(new Error('Too late'));
             }, 1500);
-        });
-        rejectPromise.catch(function(err) {
+        }).catch(function(err) {
             if (console && console.log) {
                 console.log('1:', err);
             }
             document.getElementsByTagName("pre")[1].innerHTML = '1: ' + JSON.stringify(err.message);
+            return 49;
         });
 
-        rejectPromise.catch(function(err) {
+        rejectPromise.then(
+            function(result){
+                console.log(108,'after catch', result);
+            }
+
+            ).catch(function(err) {
             if (console && console.log) {
                 console.log('2:', err);
             }
@@ -154,6 +159,9 @@
         rejectedPromise.catch(function(err) {
             console.log('Promise.reject 2', err);
         });
+
+        // should throw error
+        new Promise();
     });
     </script>
 </body>
