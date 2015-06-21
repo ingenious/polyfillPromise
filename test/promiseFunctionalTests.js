@@ -2,7 +2,7 @@ var nativePromise = Promise,
     assert = require("assert"),
     testSuite = function(promiseType) {
       describe(promiseType + ' Functional tests - Promise methods', function() {
-            describe('.resolve() & .then()', function() {
+            describe('resolve() & .then()', function() {
                 var promiseReturnedFromThen, promise = new Promise(function(resolve) {
                     setTimeout(function() {
                         resolve({
@@ -30,7 +30,7 @@ var nativePromise = Promise,
                 });
             });
 
-            describe('.reject() and .catch()', function() {
+            describe('reject() and .catch()', function() {
                 var promiseReturnedFromCatch, rejectPromise = new Promise(function(resolve, reject) {
                     setTimeout(function() {
                         reject(new Error('Too late'));

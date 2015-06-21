@@ -10,8 +10,8 @@
         "url": "https://github.com/ingenious/polyfillPromise.git"
     },
     "description": "A polyfill for Browsers not supporting ECMAScript 6 Promise",
-    "version": "0.0.2",
-    "main": "polyfillPromise-0.2.js",
+    "version": "0.1",
+    "main": "polyfillPromise-0.1.js",
     "devDependencies": {
         "express": "~4.0.0",
         "underscore": "~1.8.3",
