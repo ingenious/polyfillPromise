@@ -41,3 +41,10 @@ root.Promise = require('../polyfillPromise-0.1.js');
 
 // run test suite against polyfillPromise
 testSuite('Polyfill');
+
+root.Promise = undefined;
+root.Promise = require('../polyfillPromise-0.1.min.js');
+
+// run test suite against polyfillPromise.min
+testSuite('Minified Polyfill');
+
