@@ -182,7 +182,7 @@
     // commonJS module
     else if (typeof exports !== 'undefined') {
         if (typeof module !== 'undefined' && module.exports) {
-            exports = module.exports = PolyFillPromise;
+            exports = module.exports = PolyfillPromise;
         }
         exports.Promise = PolyfillPromise;
     } else if (!root.Promise) {

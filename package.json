@@ -1,0 +1,22 @@
+{
+    "name": "polyfillPromise",
+
+    "author": {
+        "name": "Stephen Giles",
+        "company": ""
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ingenious/polyfillPromise.git"
+    },
+    "description": "A polyfill for Browsers not supporting ECMAScript 6 Promise",
+    "version": "0.0.2",
+    "main": "polyfillPromise-0.2.js",
+    "devDependencies": {
+        "express": "~4.0.0",
+        "underscore": "~1.8.3",
+        "mocha": "~2.2.5",
+        "karma": "~0.12.36"
+    },
+    "readmeFilename": "README.md"
+}
