@@ -109,5 +109,34 @@ Appends fulfillment and rejection handlers to the promise, and returns a new pro
 
 ##Test Suite
 
-```
-Polyfill Unit tests    instantiation      ✓ should throw error if argument is not a function      ✓ should have a constructor with name Promise      ✓ should have a methods all, race, resolve and reject      ✓ instantiated object should have a methods then and catchPolyfill Functional tests - Promise methods    resolve() & .then()      ✓ then() should receive resolved value      ✓ A second then() should receive resolved value      ✓ then() should return new Promise    reject() and .catch()      ✓ catch() should receive rejected value      ✓ A second catch() should receive rejected value      ✓ catch() should return new Promise    Promise.race()      ✓ .race() should resolve when first Promise resolves      ✓ .race() should reject when first Promise rejects    Promise.all()      ✓ .all() should resolve when last Promise resolves with array of returned values      ✓ .all() should reject when first Promise rejects    Promise.resolve() use cases      ✓ Promise.resolve(promise) returns promise      ✓ Promise.resolve(thenable) returns Promise that follows thenable      ✓ Promise.resolve(value) returns Promise that resolves to value    Promise.reject()       ✓ Promise.resolve(value) should return promise that rejects to value ```
+Polyfill Unit tests
+    instantiation
+      ✓ should throw error if argument is not a function
+      ✓ should have a constructor with name Promise
+      ✓ should have a methods all, race, resolve and reject
+      ✓ instantiated object should have a methods then and catch
+
+
+Polyfill Functional tests - Promise methods
+    resolve() & .then()
+      ✓ then() should receive resolved value
+      ✓ A second then() should receive resolved value
+      ✓ then() should return new Promise
+    reject() and .catch()
+      ✓ catch() should receive rejected value
+      ✓ A second catch() should receive rejected value
+      ✓ catch() should return new Promise
+    Promise.race()
+      ✓ .race() should resolve when first Promise resolves
+      ✓ .race() should reject when first Promise rejects
+    Promise.all()
+      ✓ .all() should resolve when last Promise resolves with array of returned values
+      ✓ .all() should reject when first Promise rejects
+    Promise.resolve() use cases
+      ✓ Promise.resolve(promise) returns promise
+      ✓ Promise.resolve(thenable) returns Promise that follows thenable
+      ✓ Promise.resolve(value) returns Promise that resolves to value
+    Promise.reject() 
+      ✓ Promise.resolve(value) should return promise that rejects to value
+
+ ```
