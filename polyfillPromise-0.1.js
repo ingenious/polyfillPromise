@@ -18,6 +18,7 @@
                 rejectedArgs, onReject = [],
                 resolvedArgs, state = 'pending',
                 catchResolver,
+                thenResolver,
                 reject = function(args) {
                     rejectedArgs = arguments;
                     for (var i = 0; i < onReject.length; i++) {
@@ -59,9 +60,10 @@
                         });
                     }
                     if (typeof callback === 'function') {
-                        onResolve.push(function() {
+                        
+                        onResolve[onResolve.length]=function() {
                             thenResolver(callback.apply(pp, resolvedArgs));
-                        });
+                        };
                     }
                     return new PolyfillPromise(function(resolve) {
                         thenResolver = resolve;
@@ -84,7 +86,7 @@
                             catchResolver(fail.apply(pp, rejectedArgs));
                         });
                     }
-                    onResolve.push(catchResolver);
+                    //onresolve.push(catchResolver);
 
                     return new PolyfillPromise(function(resolve) {
                         catchResolver = resolve;
@@ -99,13 +101,15 @@
                     size = array.length;
                 (function iterate(i) {
                     var index = i;
-                    PolyfillPromise.resolve(array[i])
+                    array[index]
                         .then(function(value) {
                             resolvedValues[index] = value;
                             if (++resolved === size) {
+                                state = 'fulfilled';
                                 resolve(resolvedValues);
                             }
-                        })['catch'](function(e) {
+                        });
+                        array[index]['catch'](function(e) {
                             if (!state) {
                                 state = 'rejected';
                                 reject(e);
@@ -121,15 +125,17 @@
             return new PolyfillPromise(function(resolve, reject) {
                 var state, size = array.length;
                 (function iterate(i) {
-                    var index = i,
-                        promise =
-                        PolyfillPromise.resolve(array[index])
+                    var index = i;
+                        
+                        array[index]
                         .then(function(value) {
                             if (!state) {
                                 state = 'fulfilled';
                                 resolve(value);
                             }
-                        })['catch'](function(e) {
+                        });
+                        array[index]['catch'](function(e) {
+
                             if (!state) {
                                 state = 'rejected';
                                 reject(e);
@@ -144,7 +150,7 @@
         PolyfillPromise.resolve = function(objPromiseThenable) {
 
             // arg is a Promise
-            if (objPromiseThenable && objPromiseThenable.constructor && objPromiseThenable.constructor.name === 'Promise') {
+            if (objPromiseThenable && objPromiseThenable.constructor && (objPromiseThenable.constructor===PolyfillPromise)) {
                 return objPromiseThenable;
 
                 // arg is thenable    
@@ -165,6 +171,7 @@
                 reject(error);
             });
         };
+        
     } else {
 
         // use native Promise if exists
