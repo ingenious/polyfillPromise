@@ -10,13 +10,19 @@
         "url": "https://github.com/ingenious/polyfillPromise.git"
     },
     "description": "A polyfill for Browsers not supporting ECMAScript 6 Promise",
-    "version": "0.1",
+    "version": "0.1.1",
     "main": "polyfillPromise-0.1.js",
     "devDependencies": {
         "express": "~4.0.0",
         "underscore": "~1.8.3",
         "mocha": "~2.2.5",
-        "karma": "~0.12.36"
+        "karma": "~0.12.36",
+        "gulp":"3.9.0",
+        "gulp-closure-compiler":"~0.2.19",
+        "gulp-mocha":"2.1.2",
+        "gulp-replace": "0.5.3",
+        "run-sequence":"~1.1.1"
+
     },
     "readmeFilename": "README.md"
 }

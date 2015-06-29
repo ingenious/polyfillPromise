@@ -28,7 +28,7 @@
                 },
                 resolve = function(args) {
                     resolvedArgs = arguments;
-                    for (var i = 0; i < onResolve.length; i++) {
+                    for (var i = 0; i < onResolve.length; i++) {                        
                         onResolve[i].apply(pp, resolvedArgs);
                     }
                     state = 'fulfilled';
@@ -47,9 +47,9 @@
 
                 // Promise already rejected or resolved
                 if (state === 'fulfilled' && typeof callback === 'function') {
-                    return Promise.resolve(callback.apply(pp, resolvedArgs));
+                    return PolyfillPromise.resolve(callback.apply(pp, resolvedArgs));
                 } else if (state === 'rejected' && typeof fail === 'function') {
-                    return Promise.reject(fail.apply(pp, rejectedArgs));
+                    return PolyfillPromise.reject(fail.apply(pp, rejectedArgs));
 
                     // Promise resolved or rejected in future, return new Promise
                     // which either resolves to return value of callback or fail, whichever executes
@@ -76,7 +76,7 @@
                 if (state === 'rejected' && typeof fail === 'function') {
                     return PolyfillPromise.reject(fail.apply(pp, rejectedArgs));
                 } else if (state === 'fulfilled') {
-                    return PolyfillPromise.resolve(resolvedArgs);
+                    return PolyfillPromise.resolve.apply(pp,resolvedArgs);
 
                     // Promise resolved or rejected in future, return new Promise
                     // which either resolves to returned value of fail or the original fulfilled value.
@@ -86,7 +86,9 @@
                             catchResolver(fail.apply(pp, rejectedArgs));
                         });
                     }
-                    //onresolve.push(catchResolver);
+                   onResolve.push(function(){
+                        catchResolver.apply(pp,resolvedArgs);
+                    });
 
                     return new PolyfillPromise(function(resolve) {
                         catchResolver = resolve;
@@ -126,7 +128,6 @@
                 var state, size = array.length;
                 (function iterate(i) {
                     var index = i;
-                        
                         array[index]
                         .then(function(value) {
                             if (!state) {
